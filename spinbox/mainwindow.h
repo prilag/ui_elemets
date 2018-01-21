@@ -18,7 +18,8 @@ public:
 
 private:
     Ui::MainWindow *ui;
-    SpinBox* p_settings;
+    SpinBox* p1_settings;
+    SpinBox* p2_settings;
 };
 
 #endif // MAINWINDOW_H

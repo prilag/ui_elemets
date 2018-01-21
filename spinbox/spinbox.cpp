@@ -14,13 +14,30 @@
 // -------------------------------------------------------------------------
 SpinBox::SpinBox(QWidget *parent) : QSpinBox(parent)
 {
-    m_prev = new QLabel("-", this);
-    m_next = new QLabel("-", this);
+    m_prev = new QLabel(this);
+    m_next = new QLabel(this);
     setButtonSymbols(QAbstractSpinBox::NoButtons);
     setAlignment(Qt::AlignCenter);
     m_prev->setAlignment(alignment());
     m_next->setAlignment(alignment());
+    QFont small_font(font());
+    QFont bold_font(font());
+    bold_font.setBold(true);
+    small_font.setPointSize(small_font.pointSize()-4);
+    m_prev->setFont(small_font);
+    m_next->setFont(small_font);
+    setFont(bold_font);
     connect(this, SIGNAL(valueChanged(int)), this, SLOT(changePrevNext(int)));
+    setSpecialValueText(tr("off"));
+}
+
+// -------------------------------------------------------------------------
+SpinBox::SpinBox(QWidget *parent, const QMap<QString, int> &elements)
+    : SpinBox(parent)
+{
+    m_int2text_map = elements;
+    setRange(m_int2text_map.first(),m_int2text_map.last());
+    changePrevNext(minimum());
 }
 
 // -------------------------------------------------------------------------
@@ -64,7 +81,7 @@ void SpinBox::changePrevNext(int value)
         }
         else
         {
-            m_prev->setText("-");
+            m_prev->setText("");
         }
 
         if ((value + 1) <= maximum())
@@ -73,12 +90,13 @@ void SpinBox::changePrevNext(int value)
         }
         else
         {
-            m_next->setText("-");
+            m_next->setText("");
         }
     }
     else
     {
-        m_prev->setText(m_int2text_map.key(value-1, "-"));
-        m_next->setText(m_int2text_map.key(value+1, "-"));
+        QMapIterator<QString, int> i(m_int2text_map);
+        m_prev->setText(i.next().key());
+        m_next->setText(i.previous().key());
     }
 }

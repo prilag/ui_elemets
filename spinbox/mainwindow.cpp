@@ -6,10 +6,17 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //p_settings = new SpinBox(this);
-    p_settings = new SpinBox(this,0,9," min");
-    p_settings->resize(QSize(50,80));
-    p_settings->move(20,20);
+    QMap<QString, int> elements;
+    elements.insert("E30", 1);
+    elements.insert("E36", 2);
+    elements.insert("E46", 3);
+    p1_settings = new SpinBox(this,0,9," min");
+    p1_settings->resize(QSize(50,80));
+    p1_settings->move(20,20);
+
+    p2_settings = new SpinBox(this, elements);
+    p2_settings->resize(QSize(50,80));
+    p2_settings->move(100,20);
 }
 
 MainWindow::~MainWindow()
