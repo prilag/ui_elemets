@@ -15,9 +15,9 @@
 SpinBox::SpinBox(QWidget *parent) : QSpinBox(parent)
 {
     setButtonSymbols(QAbstractSpinBox::NoButtons);
-    m_int2text_map.insert(1,"first");
-    m_int2text_map.insert(2,"second");
-    m_int2text_map.insert(3,"third");
+    m_int2text_map.insert("first",1);
+    m_int2text_map.insert("second",2);
+    m_int2text_map.insert("third",3);
     setRange(1,3);
     m_prev = new QLabel("-",this);
     m_next = new QLabel("-",this);
@@ -30,7 +30,7 @@ SpinBox::SpinBox(QWidget *parent) : QSpinBox(parent)
 // -------------------------------------------------------------------------
 QString SpinBox::textFromValue(int value) const
 {
-    return m_int2text_map.value(value, "?");
+    return m_int2text_map.key(value, "?");
 }
 
 // -------------------------------------------------------------------------
@@ -44,6 +44,6 @@ void SpinBox::resizeEvent(QResizeEvent *event)
 // -------------------------------------------------------------------------
 void SpinBox::changePrevNext(int value)
 {
-    m_prev->setText(m_int2text_map.value(value-1, "-"));
-    m_next->setText(m_int2text_map.value(value+1, "-"));
+    m_prev->setText(m_int2text_map.key(value-1, "-"));
+    m_next->setText(m_int2text_map.key(value+1, "-"));
 }

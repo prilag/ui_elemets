@@ -26,7 +26,7 @@ protected:
     virtual void resizeEvent(QResizeEvent *event);
 
 private:
-    QMap<int, QString> m_int2text_map;
+    QMap<QString, int> m_int2text_map;
     QLabel *m_prev;
     QLabel *m_next;
 
