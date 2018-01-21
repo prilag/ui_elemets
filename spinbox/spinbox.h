@@ -20,6 +20,7 @@ class SpinBox : public QSpinBox
 
 public:
     explicit SpinBox(QWidget *parent);
+    SpinBox(QWidget *parent, const int min, const int max, const QString &suffix);
 
 protected:
     QString textFromValue(int value) const;

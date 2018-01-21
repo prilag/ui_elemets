@@ -14,13 +14,9 @@
 // -------------------------------------------------------------------------
 SpinBox::SpinBox(QWidget *parent) : QSpinBox(parent)
 {
+    m_prev = new QLabel("-", this);
+    m_next = new QLabel("-", this);
     setButtonSymbols(QAbstractSpinBox::NoButtons);
-    m_int2text_map.insert("first",1);
-    m_int2text_map.insert("second",2);
-    m_int2text_map.insert("third",3);
-    setRange(1,3);
-    m_prev = new QLabel("-",this);
-    m_next = new QLabel("-",this);
     setAlignment(Qt::AlignCenter);
     m_prev->setAlignment(alignment());
     m_next->setAlignment(alignment());
@@ -28,9 +24,25 @@ SpinBox::SpinBox(QWidget *parent) : QSpinBox(parent)
 }
 
 // -------------------------------------------------------------------------
+SpinBox::SpinBox(QWidget *parent, const int min, const int max, const QString &suffix)
+    : SpinBox(parent)
+{
+    setRange(min,max);
+    setSuffix(suffix);
+    changePrevNext(minimum());
+}
+
+// -------------------------------------------------------------------------
 QString SpinBox::textFromValue(int value) const
 {
-    return m_int2text_map.key(value, "?");
+    if(m_int2text_map.isEmpty())
+    {
+        return QString::number(value);
+    }
+    else
+    {
+        return m_int2text_map.key(value, "?");
+    }
 }
 
 // -------------------------------------------------------------------------
@@ -44,6 +56,29 @@ void SpinBox::resizeEvent(QResizeEvent *event)
 // -------------------------------------------------------------------------
 void SpinBox::changePrevNext(int value)
 {
-    m_prev->setText(m_int2text_map.key(value-1, "-"));
-    m_next->setText(m_int2text_map.key(value+1, "-"));
+    if(m_int2text_map.isEmpty())
+    {
+        if ((value - 1) >= minimum())
+        {
+            m_prev->setText(QString::number(value - 1) + suffix());
+        }
+        else
+        {
+            m_prev->setText("-");
+        }
+
+        if ((value + 1) <= maximum())
+        {
+            m_next->setText(QString::number(value + 1) + suffix());
+        }
+        else
+        {
+            m_next->setText("-");
+        }
+    }
+    else
+    {
+        m_prev->setText(m_int2text_map.key(value-1, "-"));
+        m_next->setText(m_int2text_map.key(value+1, "-"));
+    }
 }
