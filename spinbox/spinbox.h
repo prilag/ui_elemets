@@ -11,6 +11,7 @@
 
 // -------------------------------------------------------------------------
 #include <QSpinBox>
+#include <QLabel>
 // -------------------------------------------------------------------------
 
 class SpinBox : public QSpinBox
@@ -18,13 +19,19 @@ class SpinBox : public QSpinBox
   Q_OBJECT
 
 public:
-  explicit SpinBox(QWidget *parent);
+    explicit SpinBox(QWidget *parent);
 
 protected:
-  QString textFromValue(int value) const;
+    QString textFromValue(int value) const;
+    virtual void resizeEvent(QResizeEvent *event);
 
 private:
-  QMap<int, QString> m_int2text_map;
+    QMap<int, QString> m_int2text_map;
+    QLabel *m_prev;
+    QLabel *m_next;
+
+private slots:
+    void changePrevNext(int value);
 };
 
 #endif // SPINBOX_H

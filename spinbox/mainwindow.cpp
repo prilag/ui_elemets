@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     p_settings = new SpinBox(this);
-    p_settings->move(200,200);
+    p_settings->resize(QSize(100,100));
+    p_settings->move(20,20);
 }
 
 MainWindow::~MainWindow()
