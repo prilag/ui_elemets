@@ -37,10 +37,8 @@ QString SpinBox::textFromValue(int value) const
 void SpinBox::resizeEvent(QResizeEvent *event)
 {
     QSpinBox::resizeEvent(event);
-    static int cnt = 0;
     m_prev->setGeometry(0,0,width(),height()/3);
     m_next->setGeometry(0,2*height()/3,width(),height()/3);
-    qDebug() << cnt++ << "resize" << width() << height();
 }
 
 // -------------------------------------------------------------------------
@@ -49,6 +47,3 @@ void SpinBox::changePrevNext(int value)
     m_prev->setText(m_int2text_map.value(value-1, "-"));
     m_next->setText(m_int2text_map.value(value+1, "-"));
 }
-
-
-
